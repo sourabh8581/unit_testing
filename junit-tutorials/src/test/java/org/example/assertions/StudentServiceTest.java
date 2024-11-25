@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.Arrays;
 import java.util.List;
 import org.example.Student;
+import org.example.StudentNotFoundException;
 import org.example.StudentService;
 import org.junit.jupiter.api.Test;
 
@@ -132,6 +133,40 @@ class StudentServiceTest {
 //    assertIterableEquals(expected,actual);
 //    assertIterableEquals(expected,actual,"Student names list is not equal");
     assertIterableEquals(expected,actual,()->"Student names list is not equal");
+  }
+
+  @Test
+  public void getStudentByIdUsingAssertThrows(){
+    StudentService studentService = new StudentService();
+
+    Student student = new Student(1,"sourabh","Science");
+    studentService.addStudent(student);
+
+//    assertThrows(StudentNotFoundException.class, ()->
+//        studentService.getStudentByName("Snehal"));
+
+//    assertThrows(StudentNotFoundException.class,()->
+//        studentService.getStudentByName("sourabh"),
+//        "Student not found exception to be thrown");
+
+    assertThrows(RuntimeException.class,
+        ()->studentService.getStudentByName("sourabh"),
+        "StudentNotFound exception to be thrown");
+  }
+
+  @Test
+  public void getStudentByIdUsingAssertThrowsExactly(){
+    StudentService studentService = new StudentService();
+
+    Student student = new Student(1,"sourabh","Science");
+    studentService.addStudent(student);
+
+//    assertThrowsExactly(StudentNotFoundException.class,
+//        ()->studentService.getStudentByName("ramesh"));
+
+    assertThrowsExactly(RuntimeException.class,
+        ()->studentService.getStudentByName("ramesh"),
+        "StudentNotFoundException to be thrown but it wasnt");
   }
 
 
